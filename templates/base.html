@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Build a Blog</title>
+        <style>
+            .error {
+                color: red;
+            }
+            h1 {
+                text-align:center;
+            }
+            nav>a {
+                background-color: #36f475;
+                color: rgb(0, 31, 4);
+                padding: 14px 25px;
+                text-align: center; 
+                text-decoration: none;
+                display: inline-block;
+            }
+        </style>
+</head>
+
+<body>
+
+    <nav>
+        <a href='/blog'>Main Blog Page
+        </a>
+        <a href='/newpost'>Add a Blog Entry
+        </a>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+
+</body>
+</html>
