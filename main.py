@@ -47,9 +47,9 @@ def new_blog():
     if request.method == 'POST':
         title = request.form['title']
         body = request.form['body']
-        if title == '':
+        if is_empty(title):
             empty_title_error = error_title
-        if body == '':
+        if is_empty(body):
             empty_body_error = error_body
 
     if request.method == 'POST' and empty_body_error == '' and empty_title_error == '':
