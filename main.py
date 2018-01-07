@@ -8,7 +8,6 @@ app.config['SQLALCHEMY_ECHO'] = True
 
 db = SQLAlchemy(app)
 
-
 class Blog(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
@@ -19,7 +18,6 @@ class Blog(db.Model):
         self.title = title
         self.body = body
 
-
 @app.route('/')
 def index():
     return redirect('/blog')
@@ -27,8 +25,14 @@ def index():
 @app.route('/blog', methods=['POST', 'GET'])
 def blog():
 
-    blog_posts = Blog.query.all()
-    return render_template('/blog.html', blog_posts=blog_posts)
+    blog_id = request.args.get('id')
+
+    if blog_id:
+        post_id = Blog.query.get(blog_id)
+        return render_template('/post.html',post_id=post_id)
+    else:
+        blog_posts = Blog.query.all()
+        return render_template('/blog.html', blog_posts=blog_posts)
 
 def is_empty(text):
     if not len(text) > 0:
@@ -56,18 +60,11 @@ def new_blog():
         new_post = Blog(title,body)
         db.session.add(new_post)
         db.session.commit()
-        post_id = Blog.query.get(new_post.id)
-        return render_template('post.html', post_id=post_id)
+        #post_id = Blog.query.get(new_post.id)
+        return redirect('/blog?id=' + str(new_post.id))
     else:
         return render_template('/newpost.html',empty_title_error=empty_title_error,empty_body_error=empty_body_error)
 
-
-@app.route('/post')
-def post():
-
-    id = request.args.get('id')
-    post_id = Blog.query.get(id)
-    return render_template('/post.html',post_id=post_id)
 
 if __name__ == '__main__':
     app.run()
